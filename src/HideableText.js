@@ -9,7 +9,7 @@ export default class HideableText extends React.Component {
     return (
       <div>
         <button>Toggle</button>
-        Some Text Here
+        {this.props.text}
       </div>
     );
   }

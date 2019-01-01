@@ -13,7 +13,7 @@ class App extends Component {
             Hello World
           </p>
           <div className="App-content">
-            <HideableText />
+            <HideableText text="Dynamic Text!" />
           </div>
           <a
             className="App-link"
