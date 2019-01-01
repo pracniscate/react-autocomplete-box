@@ -1,14 +1,9 @@
 import React from 'react';
+import './AutoCompleteText.css';
 
 export default class AutoCompleteText extends React.Component {
   constructor(props) {
     super(props);
-    this.items = [
-      'David',
-      'Damien',
-      'Sara',
-      'Jane',
-    ];
     this.state = {
       suggestions: [],
       text: '',
@@ -16,6 +11,7 @@ export default class AutoCompleteText extends React.Component {
   }
 
   onTextChanged = (e) => {
+    const { items } = this.props;
     const value = e.target.value;
     let suggestions = []; // make mutable
     if (value.length > 0) {
@@ -23,7 +19,7 @@ export default class AutoCompleteText extends React.Component {
       const regex = new RegExp(`^${value}`, 'i');
       // define a list of max matching suggestions,
       // sorting them alphabetically, & filtering it for items that match the regex
-      suggestions = this.items.sort().filter(v => regex.test(v));
+      suggestions = items.sort().filter(v => regex.test(v));
     }
     // update the state with the filtered list of suggestions
     // when the text box value changes, we want to set that value in the state as text
@@ -58,7 +54,7 @@ export default class AutoCompleteText extends React.Component {
     // extract the text value from the state
     const { text } = this.state;
     return (
-      <div>
+      <div className="AutoCompleteText">
         {/* take user input & output it into the console */}
         <input value={text} onChange={this.onTextChanged}type="text"/>
         {/* change to render suggestions */}
