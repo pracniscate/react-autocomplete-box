@@ -11,6 +11,7 @@ export default class AutoCompleteText extends React.Component {
     ];
     this.state = {
       suggestions: [],
+      text: '',
     };
   }
 
@@ -25,7 +26,17 @@ export default class AutoCompleteText extends React.Component {
       suggestions = this.items.sort().filter(v => regex.test(v));
     }
     // update the state with the filtered list of suggestions
-    this.setState(() => ({ suggestions }));
+    // when the text box value changes, we want to set that value in the state as text
+    this.setState(() => ({ suggestions, text: value }));
+  }
+
+  suggestionSelected (value) {
+    // update the state so the value the textbox uses is the selected suggestion
+    this.setState(() => ({
+      text: value,
+      // wipe the suggestions list
+      suggestions: [],
+    }))
   }
 
   // only render the filtered list of suggestions instead of the full list
@@ -38,16 +49,18 @@ export default class AutoCompleteText extends React.Component {
     return (
       <ul>
         {/* instead of mapping through all the items, map only through the suggestions */}
-        {suggestions.map((item) => <li>{item}</li>)}
+        {suggestions.map((item) => <li onClick={() => this.suggestionSelected(item)}>{item}</li>)}
       </ul>
     )
   }
 
   render () {
+    // extract the text value from the state
+    const { text } = this.state;
     return (
       <div>
         {/* take user input & output it into the console */}
-        <input onChange={this.onTextChanged}type="text"/>
+        <input value={text} onChange={this.onTextChanged}type="text"/>
         {/* change to render suggestions */}
         {this.renderSuggestions()}
       </div>
